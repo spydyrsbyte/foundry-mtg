@@ -1,0 +1,71 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <!-- Game Info / Header -->
+    <header class="table-header">
+        <div class="phase-tracker">
+            <span class="phase current">{{system.phase}}</span>
+        </div>
+    </header>
+
+    <!-- Opponent Seats / Playmats -->
+    <section class="seats-area">
+        {{#each seats as |seat|}}
+        {{#unless seat.isMe}}
+        <div class="seat opponent" style="border-color: {{seat.system.color}}">
+            <h3 class="player-name">{{seat.name}}</h3>
+            <div class="stats">
+                <div class="stat"><i class="fas fa-heart"></i> {{seat.system.life}}</div>
+                <div class="stat"><i class="fas fa-cards"></i> {{seat.handCount}}</div>
+            </div>
+            <div class="zones">
+                <span title="Library">Lib: {{seat.libraryCount}}</span>
+                <span title="Graveyard">Grave: {{seat.graveCount}}</span>
+            </div>
+        </div>
+        {{/unless}}
+        {{/each}}
+    </section>
+
+    <!-- Main Content / User View -->
+    <section class="player-hud">
+        {{#each seats as |seat|}}
+        {{#if seat.isMe}}
+        <div class="my-controls">
+            <div class="stat-big life-counter">
+                <input type="number" name="items.{{seat._id}}.system.life" value="{{seat.system.life}}" />
+                <label>Life</label>
+            </div>
+
+            <div class="zone-controls">
+                <div class="zone-box library" data-action="drawCard">
+                    <i class="fas fa-book"></i>
+                    <span class="count">{{seat.libraryCount}}</span>
+                    <label>Library (Draw)</label>
+                </div>
+                <div class="zone-box graveyard">
+                    <i class="fas fa-skull"></i>
+                    <span class="count">{{seat.graveCount}}</span>
+                    <label>Graveyard</label>
+                </div>
+                <div class="zone-box exile">
+                    <i class="fas fa-ban"></i>
+                    <span class="count">{{seat.exileCount}}</span>
+                    <label>Exile</label>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        {{/each}}
+
+        <!-- My Hand -->
+        <div class="hand-zone">
+            <h3>My Hand</h3>
+            <ol class="hand-cards">
+                {{#each myHand as |card|}}
+                <li class="card-item" data-item-id="{{card._id}}">
+                    <img src="{{card.img}}" title="{{card.name}}" />
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+    </section>
+</form>

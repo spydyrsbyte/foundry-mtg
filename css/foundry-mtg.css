@@ -1,0 +1,959 @@
+/* Foundry MTG System Styles */
+
+:root {
+    --mtg-color-1: #1a1a1a;
+    --mtg-color-2: #2c2c2c;
+    --mtg-color-3: #ff9900;
+    --mtg-bg-image: url();
+    --mtg-bg-complex: #1a1a1a;
+}
+
+.system-foundry-mtg {
+    font-family: "Roboto", sans-serif;
+}
+
+/* Card Sheet */
+/* Window Content General Override */
+.system-foundry-mtg .window-content {
+    background: var(--mtg-bg-complex) !important;
+    background-size: cover !important;
+    background-blend-mode: overlay !important;
+    color: #eee;
+}
+
+.sheet.item.card form {
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
+}
+
+.sheet.item.card .card-view {
+    display: flex;
+    justify-content: center;
+    background: transparent;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.sheet.item.card .card-face img {
+    border: none;
+    border-radius: 14px;
+    width: 265px;
+    height: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s;
+}
+
+.sheet.item.card .card-face img:hover {
+    transform: scale(1.02);
+}
+
+.sheet.item.card .sheet-details {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent dark */
+    color: #fff;
+}
+
+.sheet.item.card .card-details {
+    margin-top: 10px;
+    flex: 1;
+    gap: 5px;
+}
+
+.sheet.item.card textarea {
+    min-height: 150px;
+    font-family: monospace;
+}
+
+.sheet.item.card .json-debug {
+    font-size: 0.8em;
+    background: #000;
+    color: #0f0;
+    padding: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Player & Deck Sheet Grids */
+.sheet.actor.player .cards-grid,
+.sheet.item.deck .cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 5px;
+    padding-left: 60px;
+    /* Prevent left-side cutoff on hover scale */
+    list-style: none;
+    margin: 0;
+}
+
+.sheet.actor.player .cards-grid .item,
+.sheet.item.deck .cards-grid .item {
+    width: 63px;
+    /* ~1/4 size of typical card width */
+    position: relative;
+    margin: 0;
+}
+
+.sheet.actor.player .cards-grid .item-image,
+.sheet.item.deck .cards-grid .item-image {
+    width: 100%;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+}
+
+.sheet.actor.player .cards-grid .item-controls-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+}
+
+.sheet.actor.player .cards-grid .item:hover .item-controls-overlay,
+.sheet.item.deck .cards-grid .item:hover .item-controls-overlay {
+    display: flex;
+}
+
+.sheet.actor.player .items-list {
+    list-style: none;
+    padding: 0;
+}
+
+.sheet.actor.player .items-list .item {
+    margin: 2px 0;
+    padding: 4px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+/* Card Stacks */
+.sheet.actor.player .card-stack,
+.sheet.item.deck .card-stack {
+    position: relative;
+    width: 63px;
+    /* Match card width */
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sheet.actor.player .card-stack .item,
+.sheet.item.deck .card-stack .item {
+    width: 100%;
+    margin: 0;
+    transition: transform 0.2s, z-index 0.2s;
+    /* Negative margin to pull items up, creating the stack effect */
+    margin-top: -60px;
+    /* Adjusted to show ~28px of header */
+    position: relative;
+    background: transparent;
+    padding: 0;
+    z-index: var(--stack-index);
+    /* Use explicit loop index for Z order */
+}
+
+/* First item should not have negative margin to push the stack flow down */
+/* First item should not have negative margin to push the stack flow down */
+.sheet.actor.player .card-stack .item:first-child,
+.sheet.item.deck .card-stack .item:first-child {
+    margin-top: 0;
+    position: relative;
+    /* Removed explicit z-index 1 */
+}
+
+/* Ensure stacks show correct Z order */
+.sheet.actor.player .card-stack .item,
+.sheet.item.deck .card-stack .item {
+    border-radius: 3px;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.3);
+    /* Shadow showing separation */
+}
+
+/* Hover effect */
+.sheet.actor.player .card-stack .item:hover,
+.sheet.item.deck .card-stack .item:hover {
+    z-index: 1000 !important;
+    transform: scale(3.5);
+    /* Increased for readability */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    margin-top: -40px;
+    transition: transform 0.1s ease-out;
+    /* Snap faster */
+}
+
+/* Deck Sheet Styles */
+.sheet.item.deck .sheet-header {
+    height: 140px;
+    overflow: visible;
+}
+
+.sheet.item.deck .header-fields .flexrow {
+    align-items: flex-start;
+}
+
+.sheet.item.deck .main-info {
+    flex: 1;
+}
+
+.sheet.item.deck .commander-zones {
+    flex: 0 0 100px;
+    /* Fixed width for commander */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 5px;
+    margin-right: 10px;
+    /* Switched to right margin since it's on the left now */
+}
+
+.sheet.item.deck .commander-zones label {
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-bottom: 2px;
+}
+
+.sheet.item.deck .commander-upload-zone {
+    width: 63px;
+    height: 88px;
+    border: 1px dashed #aaa;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.1);
+    position: relative;
+    text-align: center;
+    font-size: 0.8em;
+}
+
+.sheet.item.deck .commander-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.sheet.item.deck .commander-card img {
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sheet.item.deck .delete-commander {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    color: red;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 2px black;
+    display: none;
+}
+
+.sheet.item.deck .commander-card:hover .delete-commander {
+    display: block;
+}
+
+.sheet.item.deck .deck-back-zone {
+    flex: 0 0 70px;
+    /* Fixed width for back image */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+.sheet.item.deck .deck-back-zone label {
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-bottom: 2px;
+}
+
+.sheet.item.deck .deck-back-zone img {
+    border: none;
+    border-radius: 4px;
+    width: 63px;
+    /* Match card width */
+    height: 88px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.sheet.item.deck .deck-back-zone img:hover {
+    box-shadow: 0 0 5px var(--color-shadow-highlight);
+}
+
+/* Pack Sheet */
+.sheet.item.pack .pack-actions {
+    padding: 10px;
+    text-align: center;
+    gap: 10px;
+}
+
+.sheet.item.pack .notes {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.sheet.item.pack button.pack-open {
+    background: #4a4;
+    color: white;
+    font-size: 1.5em;
+    padding: 10px;
+    border: 1px solid #282;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sheet.item.pack button.pack-open:hover {
+    background: #5b5;
+    box-shadow: 0 0 10px #4a4;
+}
+
+.sheet.item.pack button.pack-open:disabled {
+    background: #ccc;
+    color: #888;
+    border-color: #aaa;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Pack Results App */
+.pack-results .window-content {
+    background: var(--mtg-bg-complex) !important;
+    background-size: cover !important;
+    background-blend-mode: overlay !important;
+    overflow-y: auto;
+}
+
+.pack-results .rarity-group {
+    margin-bottom: 20px;
+}
+
+.pack-results .rarity-header {
+    border-bottom: 2px solid #444;
+    margin-bottom: 10px;
+    font-family: "Modesto Condensed", "Palatino Linotype", serif;
+}
+
+/* Ensure reusable grid works here */
+.pack-results .cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 5px;
+    list-style: none;
+    margin: 0;
+}
+
+.pack-results .cards-grid .item {
+    width: 200px;
+    /* Larger view for results */
+    margin: 5px;
+}
+
+.pack-results .cards-grid .item-image img {
+    width: 100%;
+    border-radius: 9px;
+    /* Card corner radius */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s;
+}
+
+.pack-results .cards-grid .item:hover .item-image img {
+    transform: scale(1.5);
+    z-index: 100;
+    position: relative;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+}
+
+/* Table Sheet (HUD) */
+.sheet.actor.table {
+    min-width: 800px;
+    min-height: 600px;
+}
+
+.sheet.actor.table .table-header {
+    text-align: center;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+.sheet.actor.table .seats-area {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px;
+}
+
+.sheet.actor.table .seat.opponent {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #555;
+    border-radius: 8px;
+    padding: 10px;
+    width: 200px;
+    color: white;
+}
+
+.sheet.actor.table .player-hud {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 20px;
+}
+
+.sheet.actor.table .my-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sheet.actor.table .stat-big input {
+    font-size: 3em;
+    width: 100px;
+    text-align: center;
+    background: transparent;
+    border: none;
+    color: white;
+}
+
+.sheet.actor.table .zone-controls {
+    display: flex;
+    gap: 15px;
+}
+
+.sheet.actor.table .zone-box {
+    width: 80px;
+    height: 100px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px dashed #777;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #ccc;
+    transition: all 0.2s;
+}
+
+.sheet.actor.table .zone-box:hover {
+    background: rgba(50, 50, 50, 0.8);
+    border-color: white;
+    color: white;
+}
+
+.sheet.actor.table .hand-zone {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 10px;
+    overflow-x: auto;
+}
+
+.sheet.actor.table .hand-cards {
+    display: flex;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sheet.actor.table .hand-cards .card-item img {
+    height: 250px;
+    /* Big cards for hand */
+    width: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s;
+    cursor: grab;
+}
+
+.sheet.actor.table .hand-cards .card-item:hover img {
+    transform: translateY(-20px) scale(1.1);
+    z-index: 10;
+}
+
+/* Custom HUD Overlay */
+#mtg-hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 50;
+    /* Above canvas, below some windows? Or above all? */
+    pointer-events: none;
+    /* Let clicks pass through to canvas */
+    background: transparent;
+    box-shadow: none !important;
+    /* Processed as window by default, remove standard styling */
+    border: none !important;
+}
+
+/* Hide standard window header for HUD */
+#mtg-hud .window-header {
+    display: none !important;
+}
+
+#mtg-hud .window-content {
+    background: transparent !important;
+    padding: 0;
+    overflow: visible;
+    /* Allow buttons to pop out if needed */
+}
+
+#mtg-hud-layer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+
+.gm-panel {
+    position: absolute;
+    right: 200px;
+    /* Offset from right sidebar */
+    top: 100px;
+    width: 150px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #555;
+    border-radius: 8px;
+    padding: 10px;
+    pointer-events: all;
+    /* Re-enable clicks */
+    color: white;
+    text-align: center;
+}
+
+.gm-panel button {
+    background: #444;
+    color: white;
+    border: 1px solid white;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.gm-panel button:hover {
+    background: #666;
+}
+
+/* Sidebar Player Manager Table */
+.sidebar-player-manager {
+    padding: 0.5rem;
+}
+
+.sidebar-header {
+    border-bottom: 2px groove var(--color-border-light-2);
+    margin: 0.25rem 0;
+    padding-bottom: 0.25rem;
+}
+
+.sidebar-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--color-border-light-2);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+    font-size: 0.9em;
+}
+
+.sidebar-table th {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px;
+    text-align: left;
+    font-weight: bold;
+    color: var(--color-text-light-2);
+    border-bottom: 1px solid var(--color-border-light-2);
+}
+
+.sidebar-table td {
+    padding: 4px;
+    border-bottom: 1px solid var(--color-border-light-tertiary);
+}
+
+.sidebar-table tr:last-child td {
+    border-bottom: none;
+}
+
+.sidebar-table .control-icon {
+    display: inline-block;
+    margin: 0 2px;
+    cursor: pointer;
+    color: var(--color-text-light-highlight);
+}
+
+.sidebar-table .icon-button {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 1.1em;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.sidebar-table .control-icon:hover {
+    color: var(--color-text-light-primary);
+    text-shadow: 0 0 2px var(--color-shadow-highlight);
+}
+
+.unassigned-header {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: var(--color-text-light-2);
+    border-bottom: 1px solid var(--color-border-light-2);
+    padding-bottom: 2px;
+}
+
+/* Force pointer events */
+.sidebar-table .icon-button,
+.sidebar-table .control-icon {
+    pointer-events: all !important;
+    cursor: pointer !important;
+    z-index: 1000;
+    position: relative;
+}
+
+/* Vault Editor */
+.sheet.vault-editor {
+    min-width: 800px;
+    min-height: 700px;
+}
+
+.sheet.vault-editor .window-content {
+    background: var(--mtg-bg-complex) !important;
+    background-size: cover;
+    color: #f0f0f0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sheet.vault-editor form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    /* Prevent form scroll, manage inner scroll */
+}
+
+/* Header */
+.sheet.vault-editor .sheet-header {
+    background: rgba(0, 0, 0, 0.85);
+    /* High contrast background */
+    padding: 15px;
+    border-bottom: 2px solid var(--mtg-color-3);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 0 0 auto;
+}
+
+.sheet.vault-editor .profile-img {
+    border: 2px solid var(--mtg-color-3);
+    border-radius: 4px;
+    background: #000;
+}
+
+.sheet.vault-editor .header-fields {
+    flex: 1;
+}
+
+.sheet.vault-editor input[type="text"] {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: 1px solid #555;
+    padding: 8px;
+    font-size: 1.2em;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.sheet.vault-editor input[type="text"]:focus {
+    border-color: var(--mtg-color-3);
+    box-shadow: 0 0 5px var(--mtg-color-3);
+}
+
+/* Navigation */
+.sheet.vault-editor .sheet-tabs {
+    background: #111;
+    border-bottom: 1px solid #444;
+    padding: 0;
+    flex: 0 0 auto;
+    display: flex;
+}
+
+.sheet.vault-editor .sheet-tabs .item {
+    padding: 12px 24px;
+    color: #999;
+    border-right: 1px solid #222;
+    background: linear-gradient(to bottom, #222, #111);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    transition: all 0.2s;
+}
+
+.sheet.vault-editor .sheet-tabs .item:hover {
+    color: #fff;
+    background: #2a2a2a;
+    text-shadow: 0 0 5px white;
+}
+
+.sheet.vault-editor .sheet-tabs .item.active {
+    color: var(--mtg-color-3);
+    border-bottom: 3px solid var(--mtg-color-3);
+    background: #0a0a0a;
+    text-shadow: 0 0 8px var(--mtg-color-3);
+}
+
+/* Body Content */
+.sheet.vault-editor .sheet-body {
+    flex: 1;
+    overflow: hidden;
+    /* Manage scroll per tab */
+    background: rgba(0, 0, 0, 0.7);
+    /* Darken content area */
+    position: relative;
+    /* Ensure absolute positioning works if needed, but flex is better */
+}
+
+/* Default to hidden */
+.sheet.vault-editor .tab {
+    display: none !important;
+    height: 100%;
+    overflow-y: auto;
+    flex-direction: column;
+}
+
+/* Only show active tab */
+.sheet.vault-editor .tab.active {
+    display: flex !important;
+}
+
+/* Dashboard */
+.sheet.vault-editor .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 30px;
+}
+
+.sheet.vault-editor .stat-card {
+    background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #444;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.sheet.vault-editor .stat-card h3 {
+    color: #ccc;
+    border-bottom: 1px solid #555;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9em;
+}
+
+.sheet.vault-editor .stat-card p {
+    font-size: 2.5em;
+    margin: 0;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Binder */
+.sheet.vault-editor .binder {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.sheet.vault-editor .binder-filters {
+    padding: 10px 15px;
+    background: #151515;
+    border-bottom: 1px solid #333;
+    gap: 10px;
+    align-items: center;
+    flex: 0 0 auto;
+    display: flex;
+}
+
+.sheet.vault-editor .binder-filters input,
+.sheet.vault-editor .binder-filters select {
+    background: #000;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.sheet.vault-editor .binder-filters input:focus,
+.sheet.vault-editor .binder-filters select:focus {
+    border-color: var(--mtg-color-3);
+    outline: none;
+}
+
+.sheet.vault-editor .binder-grid {
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-content: flex-start;
+    justify-content: center;
+    /* Center cards in available space */
+    overflow-y: auto;
+    flex: 1;
+}
+
+.sheet.vault-editor .mtg-card {
+    width: 220px;
+    /* Standardize width */
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    cursor: pointer;
+    background: transparent;
+    transition: transform 0.1s ease-out;
+    padding: 0;
+    margin: 5px;
+}
+
+.sheet.vault-editor .mtg-card:hover {
+    transform: scale(1.05);
+    z-index: 100;
+}
+
+.sheet.vault-editor .mtg-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 11px;
+    /* Matches standard card corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    border: 1px solid #000;
+}
+
+.sheet.vault-editor .card-overlay {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 1em;
+    font-weight: bold;
+    pointer-events: none;
+    border: 1px solid #555;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Decks Grid List */
+.sheet.vault-editor .deck-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sheet.vault-editor .deck-row {
+    padding: 12px 15px;
+    background: rgba(30, 30, 30, 0.6);
+    border-bottom: 1px solid #333;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: background 0.2s;
+}
+
+.sheet.vault-editor .deck-row:hover {
+    background: rgba(50, 50, 50, 0.8);
+    border-left: 3px solid var(--mtg-color-3);
+    /* Active indicator */
+}
+
+.sheet.vault-editor .deck-img {
+    border-radius: 4px;
+    border: 1px solid #666;
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+}
+
+.sheet.vault-editor .deck-name {
+    flex: 1;
+    margin: 0;
+    font-size: 1.2em;
+    color: #fff;
+    font-weight: 500;
+}
+
+.sheet.vault-editor .deck-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.sheet.vault-editor .deck-controls a {
+    color: #888;
+    background: #111;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #333;
+    transition: all 0.2s;
+}
+
+.sheet.vault-editor .deck-controls a:hover {
+    color: var(--mtg-color-3);
+    border-color: var(--mtg-color-3);
+    background: #222;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.sheet.vault-editor .action-bar {
+    padding: 10px;
+    background: #151515;
+    border-bottom: 1px solid #333;
+    text-align: right;
+}
+
+.sheet.vault-editor button.create-deck {
+    background: var(--mtg-color-3);
+    color: #000;
+    border: none;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.sheet.vault-editor button.create-deck:hover {
+    background: #ffa533;
+    box-shadow: 0 0 10px var(--mtg-color-3);
+}

@@ -1,0 +1,122 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <div class="header-fields">
+            <div class="flexrow">
+                <!-- Commander Section in Header (Left) -->
+                <div class="commander-zones" data-section="commander">
+                    <label>Commander</label>
+                    <div class="commander-upload-zone card-list">
+                        {{#each commanderCards as |card index|}}
+                        <div class="commander-card card-item" data-index="{{index}}" data-section="commander">
+                            <img src="{{card.img}}" title="{{card.name}}" />
+                            <a class="delete-commander" data-action="deleteCard"><i class="fas fa-times-circle"></i></a>
+                        </div>
+                        {{/each}}
+                        {{#unless commanderCards.length}}
+                        <div class="placeholder">Drop Commander</div>
+                        {{/unless}}
+                    </div>
+                </div>
+
+                <div class="main-info">
+                    <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Deck Name" />
+                    </h1>
+                    <div class="grid grid-2col">
+                        <div class="resource">
+                            <label>Verified</label>
+                            <input type="checkbox" name="system.verified" {{checked system.verified}} />
+                        </div>
+                        <div class="resource">
+                            <label>External URL</label>
+                            <input type="text" name="system.url" value="{{system.url}}" placeholder="https://..." />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deck Back Image (Right) -->
+                <div class="deck-back-zone">
+                    <label>Card Back</label>
+                    <img class="back-img" src="{{system.backurl}}" data-edit="system.backurl" title="Deck Back Image"
+                        height="100" />
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="main">Deck</a>
+        <a class="item" data-tab="side">Considering</a>
+    </nav>
+
+    <section class="sheet-body">
+        <!-- Deck Tab -->
+        <div class="tab main" data-group="primary" data-tab="main">
+            <div class="card-list" data-section="main">
+                <ul class="cards-grid">
+                    {{#each mainboardStacks as |stack|}}
+                    <div class="card-stack">
+                        {{#each stack as |card|}}
+                        <li class="item flexcol card-item" data-index="{{@index}}" data-stack-index="{{@index}}"
+                            data-section="main" style="--stack-index: {{@index}}">
+                            <div class="item-id" data-item-id="{{card._id}}" style="display:none;"></div>
+                            <!-- Note: cards inside deck are just objects in array, need robust index finding if deleting from stack -->
+                            <!-- Current deletion uses flat index. Stacks break flat index correlation. 
+                                  We need a way to track the original index or find by card object reference. 
+                                  For now, strictly purely visual stacking might be tricky with deletion logic based on flat index. 
+                                  Let's ensure we can delete. 
+                                  Actually, handlebars loop over stack then card... 
+                                  We need the original index in the flat array. 
+                                  Let's rely on adding a _originalIndex property in the prepare method? 
+                                  OR just use the card's ID if we kept it (we deleted it). 
+                                  Let's assume for now we just want to view. Deletion might be buggy on stack view without index. 
+                                  
+                                  FIX: Let's re-add _originalIndex in JS before returning stacks.
+                             -->
+                            <div class="item-image"><img src="{{card.img}}" title="{{card.name}}" /></div>
+                            <!-- <h4 class="item-name">{{card.name}}</h4> -->
+                            <div class="item-controls item-controls-overlay">
+                                <a class="item-control" title="Remove Card" data-action="deleteCard"
+                                    data-original-index="{{card._originalIndex}}"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </div>
+                    {{/each}}
+                </ul>
+                {{#unless mainboardStacks.length}}
+                <div class="placeholder flexrow">Drag cards here to add to Deck</div>
+                {{/unless}}
+            </div>
+        </div>
+
+        <!-- Considering Tab -->
+        <div class="tab side" data-group="primary" data-tab="side">
+            <div class="card-list" data-section="side">
+                <!-- Keep list view for considering? Or Grid? User asked for Deck section to use Grid. -->
+                <!-- Let's keep considering as simple list for now or grid? Let's use Grid for consistency but non-stacked? 
+                      User said "Deck section should use the card grid". 
+                      I will leave Considering as list for now to differentiate, or stacked if they want consistency. 
+                      Let's use stacked grid for both to be awesome.
+                 -->
+                <ul class="cards-grid">
+                    {{#each sideboardStacks as |stack|}}
+                    <div class="card-stack">
+                        {{#each stack as |card|}}
+                        <li class="item flexcol card-item" data-section="side" style="--stack-index: {{@index}}">
+                            <div class="item-image"><img src="{{card.img}}" title="{{card.name}}" /></div>
+                            <div class="item-controls item-controls-overlay">
+                                <a class="item-control" title="Remove Card" data-action="deleteCard"
+                                    data-original-index="{{card._originalIndex}}"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </div>
+                    {{/each}}
+                </ul>
+                {{#unless sideboardStacks.length}}
+                <div class="placeholder flexrow">Drag cards here to add to Considering</div>
+                {{/unless}}
+            </div>
+        </div>
+    </section>
+</form>

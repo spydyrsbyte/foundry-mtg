@@ -1,0 +1,27 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="100" width="100" />
+        <div class="header-fields">
+            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Pack Name" /></h1>
+            <div class="resource">
+                <label>Set Selection</label>
+                <select name="system.set_code">
+                    {{selectOptions availableSets selected=system.set_code valueAttr="code" labelAttr="label"
+                    blank="Select a Set"}}
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <section class="sheet-body">
+        <div class="pack-actions flexcol">
+            <p class="notes">
+                This pack will generate cards from the Compendium <code>world.mtg-cards-{{system.set_code}}</code>.
+            </p>
+
+            <button type="button" data-action="openPack" {{#unless canOpen}}disabled{{/unless}}>
+                <i class="fas fa-box-open"></i> Open Pack
+            </button>
+        </div>
+    </section>
+</form>

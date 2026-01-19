@@ -1,0 +1,108 @@
+<section class="sidebar-my-cards">
+    <h3 class="sidebar-header">
+        <i class="fas fa-cards-blank"></i> My Cards
+    </h3>
+
+    <!-- DECKS SECTION -->
+    <div class="sidebar-subheader"
+        style="margin-top: 5px; padding: 2px 5px; background: rgba(0,0,0,0.1); border-bottom: 1px solid var(--color-border-light-2); display: flex; justify-content: space-between; align-items: center;">
+        <strong>Decks</strong>
+        <button type="button" class="control-icon icon-button" data-action="addDeck" title="Create New Deck"
+            style="width: auto; height: 20px; font-size: 0.8em; padding: 0 5px;">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+    <table class="sidebar-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th style="text-align: center;">Colors</th>
+                <th style="width: 60px; text-align: center;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each decks as |deck|}}
+            <tr>
+                <!-- Deck Name -->
+                <td>
+                    <a data-action="editDeck" data-deckid="{{deck.id}}">
+                        <strong>{{deck.name}}</strong>
+                    </a>
+                </td>
+
+                <!-- Color Identity -->
+                <td style="text-align: center;">
+                    <div style="display: flex; justify-content: center; gap: 2px;">
+                        {{#each deck.colors as |color|}}
+                        <i class="ms ms-{{color}} ms-cost ms-shadow" style="font-size: 0.9em;"></i>
+                        {{/each}}
+                        {{#unless deck.colors.length}}
+                        <span style="color: gray; font-size: 0.8em;">-</span>
+                        {{/unless}}
+                    </div>
+                </td>
+
+                <!-- Actions -->
+                <td style="text-align: center;">
+                    <button type="button" class="control-icon icon-button" data-action="editDeck"
+                        data-deckid="{{deck.id}}" title="Edit Deck">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="control-icon icon-button" data-action="deleteDeck"
+                        data-deckid="{{deck.id}}" title="Delete Deck" style="color: red;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="3" style="text-align: center; color: gray; padding: 10px;">
+                    No decks built.
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <!-- PACKS SECTION -->
+    <div class="sidebar-subheader"
+        style="margin-top: 15px; padding: 2px 5px; background: rgba(0,0,0,0.1); border-bottom: 1px solid var(--color-border-light-2);">
+        <strong>Packs</strong>
+    </div>
+    <table class="sidebar-table">
+        <thead>
+            <tr>
+                <th>Set</th>
+                <th style="text-align: center;">Qty</th>
+                <th style="width: 40px; text-align: center;">Open</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each packs as |pack|}}
+            <tr>
+                <td>{{pack.setName}}</td>
+                <td style="text-align: center;">{{pack.count}}</td>
+                <td style="text-align: center;">
+                    <button type="button" class="control-icon icon-button" data-action="openPack"
+                        data-setcode="{{pack.code}}" title="Open a Pack">
+                        <i class="fas fa-box-open"></i>
+                    </button>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="3" style="text-align: center; color: gray; padding: 10px;">
+                    No unopened packs.
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <!-- VAULT EDITOR BUTTON -->
+
+    <button type="button" data-action="openVault" style="width: 100%; cursor: pointer; z-index: 1000;">
+        <i class="fas fa-dungeon"></i> Vault Editor
+    </button>
+
+</section>

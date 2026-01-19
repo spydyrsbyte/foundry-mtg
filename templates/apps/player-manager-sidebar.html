@@ -1,0 +1,86 @@
+<section class="sidebar-player-manager">
+    <h3 class="sidebar-header">
+        <i class="fas fa-users-cog"></i> Player Management
+    </h3>
+    <table class="sidebar-table">
+        <thead>
+            <tr>
+                <th>Users</th>
+                <th>Player</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users as |user|}}
+            <tr class="{{#if user.isGM}}gm-row{{/if}}">
+                <!-- User Name -->
+                <td class="user-name">
+                    {{user.name}}
+                </td>
+
+                <!-- Player Status -->
+                <td class="user-status" style="text-align: center;">
+                    {{#if user.isGM}}
+                    <i class="fas fa-crown" style="color: gold;" title="Gamemaster"></i>
+                    {{else}}
+                    {{#if user.hasCharacter}}
+                    <i class="fas fa-check" style="color: green;" title="Has Vault: {{user.characterName}}"></i>
+                    {{else}}
+                    <i class="fas fa-minus" style="color: red; opacity: 0.5;" title="No Vault"></i>
+                    {{/if}}
+                    {{/if}}
+                </td>
+
+                <!-- Actions -->
+                <td class="user-actions" style="text-align: center;">
+                    {{#unless user.isGM}}
+                    {{#unless user.hasCharacter}}
+                    <button type="button" class="create-actor control-icon icon-button" data-userid="{{user.id}}"
+                        title="Create Vault">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    {{else}}
+                    <button type="button" class="unassign-actor control-icon icon-button" data-userid="{{user.id}}"
+                        title="Unassign Vault">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    {{#if ../viewerIsGM}}
+                    <button type="button" class="delete-actor control-icon icon-button"
+                        data-actorid="{{user.characterId}}" title="Delete Vault" style="color: red; margin-left: 5px;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    {{/if}}
+                    {{/unless}}
+                    {{/unless}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    {{#if viewerIsGM}}
+    {{#if unassignedActors.length}}
+    <div class="unassigned-header">
+        <strong>Unassigned Vaults</strong>
+    </div>
+    <table class="sidebar-table unassigned-table">
+        <tbody>
+            {{#each unassignedActors as |actor|}}
+            <tr>
+                <td>{{actor.name}}</td>
+                <td style="text-align: center; font-size: 0.8em; color: gray;">
+                    {{actor.cardsCount}} Cards
+                </td>
+                <td style="text-align: center;">
+                    <button type="button" class="delete-actor control-icon icon-button" data-actorid="{{actor.id}}"
+                        title="Delete Vault" style="color: red;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{/if}}
+    {{/if}}
+</section>

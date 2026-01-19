@@ -1,0 +1,18 @@
+<div class="pack-results-container">
+    {{#each groups as |group|}}
+    <div class="rarity-group {{group.label}}">
+        <h2 class="rarity-header">{{group.label}}</h2>
+        <ul class="cards-grid">
+            {{#each group.cards as |card|}}
+            <li class="item flexcol card-item">
+                <div class="item-image">
+                    <img src="{{card.img}}" title="{{card.name}}" />
+                </div>
+                <!-- Optional: Name overlay or tooltip is handled by title matching existing styles -->
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    <hr />
+    {{/each}}
+</div>

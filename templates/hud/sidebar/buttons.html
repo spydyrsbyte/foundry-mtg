@@ -1,0 +1,79 @@
+<menu class="flexcol">
+    <button type="button" class="ui-control plain icon fa-solid fa-comments" data-action="tab" data-tab="chat"
+        role="tab" aria-pressed="true" data-group="primary" aria-label="Chat Messages" aria-controls="chat"
+        data-tooltip=""></button>
+    <div class="notification-pip"></div>
+    </li>
+
+    {{#if isCasual}}
+    <li>
+        <button type="button" class="ui-control plain icon fa-solid fa-chair" data-action="tab" data-tab="jointable"
+            role="tab" aria-pressed="false" data-group="primary" aria-label="Join Table" aria-controls="jointable"
+            data-tooltip=""></button>
+        <div class="notification-pip"></div>
+    </li>
+    {{/if}}
+
+    {{#if isPlayer}}
+    <li>
+        <button type="button" class="ui-control plain icon fa-solid fa-cards-blank" data-action="tab"
+            data-tab="mtg-mycards" role="tab" aria-pressed="false" data-group="primary" aria-label="My Cards"
+            aria-controls="mtg-mycards" data-tooltip=""></button>
+        <div class="notification-pip"></div>
+    </li>
+    <li>
+        <button type="button" class="ui-control plain icon fa-solid fa-chair" data-action="tab" data-tab="joingame"
+            role="tab" aria-pressed="false" data-group="primary" aria-label="Join Table" aria-controls="joingame"
+            data-tooltip=""></button>
+        <div class="notification-pip"></div>
+    </li>
+    {{/if}}
+
+    {{#if isAGM}}
+    <li>
+        <button type="button" class="ui-control plain icon fa-solid fa-users-gear" data-action="tab"
+            data-tab="mtg-players" role="tab" aria-pressed="false" data-group="primary" aria-label="Manage Players"
+            aria-controls="mtg-players" data-tooltip=""></button>
+        <div class="notification-pip"></div>
+    </li>
+
+    <li>
+        <button type="button" class="ui-control plain icon fa-solid fa-id-card-clip" data-action="tab"
+            data-tab="mtg-cards" role="tab" aria-pressed="false" data-group="primary" aria-label="Manage Cards"
+            aria-controls="mtg-cards" data-tooltip=""></button>
+        <div class="notification-pip"></div>
+    </li>
+    {{/if}}
+
+    {{#if isGM}}
+    <li>
+        <button type="button" class="ui-control plain icon fa-solid fa-users-gear" data-action="tab"
+            data-tab="mtg-players" role="tab" aria-pressed="false" data-group="primary" aria-label="Manage Players"
+            aria-controls="mtg-players" data-tooltip=""></button>
+        <div class="notification-pip"></div>
+    </li>
+    <li>
+        <button type="button" class="ui-control plain icon fa-solid fa-id-card-clip" data-action="tab"
+            data-tab="mtg-cards" role="tab" aria-pressed="false" data-group="primary" aria-label="Manage Cards"
+            aria-controls="mtg-cards" data-tooltip=""></button>
+        <div class="notification-pip"></div>
+    </li>
+    <li>
+        <button type="button" class="ui-control plain icon fa-solid fa-clipboard-list" data-action="tab"
+            data-tab="tables" role="tab" aria-pressed="false" data-group="primary" aria-label="Manage Tables"
+            aria-controls="tables" data-tooltip=""></button>
+        <div class="notification-pip"></div>
+    </li>
+    {{/if}}
+
+    <li>
+        <button type="button" class="ui-control plain icon fa-solid fa-gears" data-action="tab" data-tab="settings"
+            role="tab" aria-pressed="false" data-group="primary" aria-label="Game Settings" aria-controls="settings"
+            data-tooltip=""></button>
+        <div class="notification-pip"></div>
+    </li>
+    <li>
+        <button type="button" class="collapse ui-control plain icon fas fa-caret-left" data-tooltip="Expand"
+            aria-label="Expand" data-action="toggleState" style=""></button>
+    </li>
+</menu>

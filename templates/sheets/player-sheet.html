@@ -1,0 +1,85 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
+        <div class="header-fields">
+            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></h1>
+            <div class="resources grid grid-3col">
+                <div class="resource">
+                    <label>Total Cards</label>
+                    <div class="resource-content">
+                        <span>{{cardCount}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="collection">Collection</a>
+        <a class="item" data-tab="decks">Decks</a>
+    </nav>
+
+    <section class="sheet-body">
+        <!-- Collection Tab -->
+        <div class="tab collection" data-group="primary" data-tab="collection">
+            <!-- Packs Section -->
+            {{#if packs.length}}
+            <h3>Unopened Packs</h3>
+            <ol class="items-list">
+                {{#each packs as |item id|}}
+                <li class="item flexrow" data-item-id="{{item._id}}">
+                    <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+                    </div>
+                    <h4 class="item-name">{{item.name}} ({{item.system.set_code}})</h4>
+                    <div class="item-controls">
+                        <a class="item-control" data-action="openPack" title="Open Pack"><i
+                                class="fas fa-box-open"></i></a>
+
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+            {{/if}}
+
+            <h3>Cards</h3>
+            <ol class="items-list cards-grid">
+                {{#each cardStacks as |stack|}}
+                <div class="card-stack">
+                    {{#each stack as |item index|}}
+                    <li class="item flexcol" data-item-id="{{item._id}}" style="--stack-index: {{index}};">
+                        <img class="item-image" src="{{item.img}}" title="{{item.name}}" />
+                        <div class="item-controls-overlay">
+                            <a class="item-control" data-action="editItem" title="View"><i class="fas fa-eye"></i></a>
+                        </div>
+                    </li>
+                    {{/each}}
+                </div>
+                {{/each}}
+            </ol>
+        </div>
+
+        <!-- Decks Tab -->
+        <div class="tab decks" data-group="primary" data-tab="decks">
+            <div class="item-controls align-right">
+                <a class="item-control" data-action="createItem" title="Create Deck" data-type="deck">
+                    <i class="fas fa-plus"></i> Add Deck
+                </a>
+            </div>
+            <ol class="items-list">
+                {{#each decks as |item id|}}
+                <li class="item flexrow" data-item-id="{{item._id}}">
+                    <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+                    </div>
+                    <h4 class="item-name">{{item.name}}</h4>
+                    <div class="item-controls">
+                        <a class="item-control" data-action="editItem" title="Edit Deck"><i class="fas fa-edit"></i></a>
+                        <a class="item-control" data-action="deleteItem" title="Delete Deck"><i
+                                class="fas fa-trash"></i></a>
+
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+    </section>
+</form>

@@ -1,0 +1,59 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <!-- No Header/Toolbar as requested -->
+
+    <div class="sheet-content">
+        <div class="card-view">
+            <div class="card-face">
+                <img src="{{item.img}}" title="{{item.name}}" data-action="toggleDetails" />
+            </div>
+            <!-- Visual hint that it is clickable? -->
+        </div>
+
+        <!-- Hidden Details -->
+        <div class="sheet-details" style="display: none;">
+            <header class="details-header">
+                <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" readonly />
+                </h1>
+            </header>
+
+            <div class="card-details flexcol">
+                <div class="form-group">
+                    <label>Mana Cost</label>
+                    <input type="text" name="system.mana_cost" value="{{system.mana_cost}}" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label>Type Line</label>
+                    <input type="text" name="system.type_line" value="{{system.type_line}}" readonly />
+                </div>
+
+                <div class="form-group grid grid-2col">
+                    <div>
+                        <label>Rarity</label>
+                        <select name="system.rarity" disabled>
+                            {{selectOptions config.rarities selected=system.rarity}}
+                            <option value="{{system.rarity}}">{{system.rarity}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Set</label>
+                        <input type="text" name="system.set" value="{{system.set}}" readonly />
+                    </div>
+                </div>
+
+                <div class="oracle-text">
+                    <label>Oracle Text</label>
+                    <textarea name="system.description" readonly>{{system.description}}</textarea>
+                </div>
+            </div>
+
+            <!-- Raw Data Inspector -->
+            <div class="raw-data">
+                <details>
+                    <summary>Raw Scryfall Data (Props)</summary>
+                    <pre class="json-debug">{{json system.props}}</pre>
+                </details>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,29 @@
+{
+    "id": "foundry-mtg",
+    "title": "Magic: The Gathering System",
+    "version": "0.0.1",
+    "authors": [
+        {
+            "name": "Spydyr",
+            "discord": ""
+        }
+    ],
+    "description": "A Foundry VTT system for running Sealed Magic: The Gathering, with support for Commander/EDH formats.",
+    "compatibility": {
+        "minimum": "12",
+        "verified": "13",
+        "maximum": "13"
+    },
+    "esmodules": [
+        "scripts/foundry-mtg.js"
+    ],
+    "styles": [
+        "css/foundry-mtg.css",
+        "styles/vault-editor.css"
+    ],
+    "scripts": [],
+    "url": "https://github.com/StartYourFoundry/foundry-mtg",
+    "manifest": "https://github.com/StartYourFoundry/foundry-mtg/releases/latest/download/system.json",
+    "download": "https://github.com/StartYourFoundry/foundry-mtg/releases/latest/download/system.zip",
+    "background": ""
+}

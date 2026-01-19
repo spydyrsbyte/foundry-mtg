@@ -1,0 +1,92 @@
+<form autocomplete="off">
+    <table>
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Role</th>
+                <th>Assigned Actor</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users as |user|}}
+            <tr>
+                <td>{{user.name}}</td>
+                <td>{{#if user.isGM}}GM{{else}}Player{{/if}}</td>
+                <td>{{user.characterName}}</td>
+                <td>
+                    {{#if user.isGM}}
+                    <span style="color: grey; font-style: italic;"><i class="fas fa-crown"></i> Gamemaster</span>
+                    {{else}}
+                    {{#unless user.hasCharacter}}
+                    <button type="button" class="create-actor" data-userid="{{user.id}}">
+                        <i class="fas fa-user-plus"></i> Create Vault
+                    </button>
+                    {{else}}
+                    <div style="display: flex; gap: 5px;">
+                        <button type="button" class="unassign-actor" data-userid="{{user.id}}" title="Unassign Vault">
+                            <i class="fas fa-user-slash"></i>
+                        </button>
+
+                        {{#if ../viewerIsGM}}
+                        <button type="button" class="delete-actor" data-actorid="{{user.characterId}}"
+                            title="Delete Vault (Permanent!)" style="color: red;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        {{/if}}
+
+                        <span style="color:green; align-self: center;"><i class="fas fa-check"></i> Assigned</span>
+                    </div>
+                    {{/unless}}
+                    {{/if}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    {{#if viewerIsGM}}
+    <hr>
+    <h3><i class="fas fa-ghost"></i> Unassigned Vaults</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Vault Name</th>
+                <th>Collection Size</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each unassignedActors as |actor|}}
+            <tr data-actorid="{{actor.id}}">
+                <td>{{actor.name}}</td>
+                <td>{{actor.cardsCount}} Cards</td>
+                <td>
+                    <div style="display: flex; gap: 5px;">
+                        <!-- Reassign Logic -->
+                        <select class="reassign-select">
+                            <option value="">-- Reassign To --</option>
+                            {{#each ../assignableUsers as |u|}}
+                            <option value="{{u.id}}">{{u.name}}</option>
+                            {{/each}}
+                        </select>
+                        <button type="button" class="confirm-reassign">
+                            <i class="fas fa-check"></i>
+                        </button>
+
+                        <!-- Delete Logic -->
+                        <button type="button" class="delete-actor" data-actorid="{{actor.id}}" style="color: red;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="3" style="text-align: center; color: grey;">No unassigned vaults found.</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{/if}}
+</form>

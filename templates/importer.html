@@ -1,0 +1,22 @@
+<form class="flexcol">
+    <div class="form-group">
+        <label for="set-code">Select Set:</label>
+        <select name="set-code" id="set-code">
+            <option value="">-- Choose a Set --</option>
+            {{#each sets}}
+            <option value="{{this.code}}">{{this.name}} ({{this.code}})</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-group">
+        <p class="notes">
+            Warning: Importing will download images (approx 100MB per set) and make creating `assets/cards/SETCODE/`.
+            This may take several minutes.
+        </p>
+    </div>
+    <footer class="sheet-footer flexrow">
+        <button type="button" data-action="importSet">
+            <i class="fas fa-file-import"></i> Import Set
+        </button>
+    </footer>
+</form>

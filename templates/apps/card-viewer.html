@@ -1,0 +1,50 @@
+<div class="card-viewer">
+    <nav class="tabs" aria-label="{{localize 'SHEETS.NavigationLabel'}}">
+        <a class="item" data-tab="original" data-group="viewer">
+            <i class="fas fa-image"></i> Original
+        </a>
+        <a class="item" data-tab="oracle" data-group="viewer">
+            <i class="fas fa-book"></i> Oracle
+        </a>
+        <a class="item" data-tab="info" data-group="viewer">
+            <i class="fas fa-info-circle"></i> Info
+        </a>
+    </nav>
+
+    <section class="content">
+
+        {{!-- Original Image Tab --}}
+        <div class="tab" data-tab="original" data-group="viewer">
+            <div class="card-image-container">
+                <img src="{{item.img}}" alt="{{item.name}}" class="card-image-large">
+            </div>
+        </div>
+
+        {{!-- Oracle Text Tab --}}
+        <div class="tab" data-tab="oracle" data-group="viewer">
+            <div class="oracle-container"
+                style="background-image: url('/systems/foundry-mtg/assets/cards/default/blank-card.jpg');">
+                <div class="oracle-overlay">
+                    <h3>{{item.name}}</h3>
+                    <div class="mana-cost">{{item.system.mana_cost}}</div>
+                    <div class="type-line">{{item.system.type_line}}</div>
+                    <div class="oracle-text">{{{item.system.description}}}</div>
+                    <div class="power-toughness">{{item.system.props.power}}/{{item.system.props.toughness}}</div>
+                </div>
+            </div>
+        </div>
+
+        {{!-- Info Tab --}}
+        <div class="tab" data-tab="info" data-group="viewer">
+            <div class="card-info-panel">
+                <p><strong>Name:</strong> {{item.name}}</p>
+                <p><strong>Type:</strong> {{item.system.type_line}}</p>
+                <p><strong>Mana Cost:</strong> {{item.system.mana_cost}}</p>
+                <p><strong>Rarity:</strong> {{item.system.rarity}}</p>
+                <hr>
+                <em class="flavor-text">{{item.system.props.flavor_text}}</em>
+            </div>
+        </div>
+
+    </section>
+</div>

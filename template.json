@@ -1,0 +1,97 @@
+{
+    "Actor": {
+        "types": [
+            "player",
+            "planeswalker",
+            "permanent"
+        ],
+        "player": {
+            "active_decks": [],
+            "collection_stats": {
+                "total_cards": 0,
+                "rares": 0
+            }
+        },
+        "phase": "untap",
+        "active_player": "",
+        "priority": "",
+        "life": {}
+    },
+    "permanent": {
+        "card_id": "",
+        "tapped": false,
+        "power": 0,
+        "toughness": 0,
+        "damage": 0,
+        "counters": {}
+    },
+    "Item": {
+        "types": [
+            "card",
+            "deck",
+            "pack"
+        ],
+        "card": {
+            "type_line": "",
+            "mana_cost": "",
+            "cmc": 0,
+            "colors": [],
+            "color_identity": [],
+            "rarity": "common",
+            "artist": "",
+            "set": "",
+            "number": "",
+            "layout": "normal",
+            "oracle_text": "",
+            "flavor_text": "",
+            "power": "",
+            "toughness": "",
+            "loyalty": "",
+            "oracle_id": "",
+            "props": {},
+            "gm": {
+                "notes": "",
+                "banned": false
+            },
+            "location": "collection",
+            "owner": "",
+            "controller": "",
+            "tapped": false,
+            "counters": {},
+            "pack": {
+                "owner": "",
+                "opened": null,
+                "trades": []
+            }
+        },
+        "deck": {
+            "cards": {
+                "commander": [],
+                "identity": [],
+                "main": [],
+                "side": []
+            },
+            "verified": false,
+            "url": "",
+            "lastSync": "",
+            "bracket": null,
+            "backurl": "systems/foundry-mtg/assets/cards/default/back.webp"
+        },
+        "pack": {
+            "subtype": "play",
+            "set_code": "",
+            "opened": false
+        },
+        "playmat": {
+            "player_id": "",
+            "life": 40,
+            "color": "#ffffff",
+            "counters": {
+                "poison": 0,
+                "energy": 0,
+                "experience": 0,
+                "commander_tax": 0
+            }
+        }
+    }
+}

@@ -1,0 +1,85 @@
+<form class="mtg-join-table" autocomplete="off">
+    <header class="sheet-header">
+        <h1>Join the Game</h1>
+    </header>
+
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item tab-link active" data-tab="vault"><i class="fas fa-dungeon"></i> Vault (Sealed)</a>
+        <a class="item tab-link" data-tab="import"><i class="fas fa-file-import"></i> Quick Import</a>
+    </nav>
+
+    <section class="content">
+        <!-- VAULT TAB -->
+        <div class="tab-content active" data-tab="vault">
+            {{#if hasVault}}
+            <div class="form-group">
+                <label>Select Deck from Vault:</label>
+                <div class="form-fields">
+                    <select id="vault-deck-select" name="vaultDeck">
+                        {{#each decks}}
+                        <option value="{{this.id}}">{{this.name}} ({{this.colors}})</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <p class="notes">Loading from: <strong>{{vaultName}}</strong></p>
+            </div>
+            {{else}}
+            <div class="warning-box">
+                <p><i class="fas fa-exclamation-triangle"></i> You do not have a Player Vault assigned.</p>
+                <p>Ask a GM/Assistant to create one for you in "Manage Players".</p>
+            </div>
+            {{/if}}
+        </div>
+
+        <!-- IMPORT TAB -->
+        <div class="tab-content" data-tab="import" style="display:none;">
+            <div class="form-group">
+                <label>Paste Deck List (Arena Format):</label>
+                <textarea id="import-deck-text" name="importDeck" rows="10"
+                    placeholder="4 Llanowar Elves&#10;20 Forest"></textarea>
+            </div>
+        </div>
+    </section>
+
+    <footer class="sheet-footer">
+        <button type="button" class="join-btn" data-type="vault" {{#unless hasVault}}disabled{{/unless}}>
+            <i class="fas fa-play"></i> Play Sealed Deck
+        </button>
+        <button type="button" class="join-btn" data-type="import" style="display:none;">
+            <i class="fas fa-play"></i> Play Imported Deck
+        </button>
+    </footer>
+</form>
+
+<style>
+    .mtg-join-table .sheet-tabs {
+        flex: 0 0 30px;
+        margin-bottom: 10px;
+        border-bottom: 2px solid var(--mtg-color-3);
+    }
+
+    .mtg-join-table .tab-link {
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    .mtg-join-table .tab-link.active {
+        background: var(--mtg-color-3);
+        color: #000;
+        border-radius: 5px 5px 0 0;
+    }
+
+    .mtg-join-table textarea {
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        font-family: monospace;
+    }
+
+    .warning-box {
+        background: rgba(255, 0, 0, 0.2);
+        border: 1px solid red;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+    }
+</style>

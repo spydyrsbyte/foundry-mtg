@@ -1,0 +1,167 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header">
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
+        <div class="header-fields">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{actor.name}}" placeholder="Vault Name" />
+            </h1>
+        </div>
+    </header>
+
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="dashboard">Dashboard</a>
+        <a class="item" data-tab="binder">Binder</a>
+        <a class="item" data-tab="decks">Decks</a>
+    </nav>
+
+    <section class="sheet-body">
+        <!-- DASHBOARD TAB -->
+        <div class="tab dashboard" data-group="primary" data-tab="dashboard">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Cards</h3>
+                    <p>{{totalCards}}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Decks</h3>
+                    <p>{{decks.length}}</p>
+                </div>
+                <!-- Placeholder for color breakdown -->
+            </div>
+        </div>
+
+        <!-- BINDER TAB -->
+        <div class="tab binder" data-group="primary" data-tab="binder">
+
+            <!-- Filter Accordion -->
+            <div class="filter-accordion">
+                <div class="accordion-header" data-action="toggleFilter">
+                    <span><i class="fas fa-filter"></i> Filters & Grouping</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content {{#if filterExpanded}}active{{/if}}">
+
+                    <!-- Search -->
+                    <div class="filter-section">
+                        <h4>Search</h4>
+                        <input type="text" name="filter-name" placeholder="Search by Name..." value="{{filters.name}}">
+                    </div>
+
+                    <!-- Layout: Flex Row for Columns -->
+                    <div style="display: flex; gap: 20px;">
+
+                        <!-- Color Filter -->
+                        <div class="filter-section" style="flex: 1;">
+                            <h4>Colors</h4>
+                            <div class="filter-options">
+                                {{#each config.colors as |label key|}}
+                                <label class="filter-option">
+                                    <input type="checkbox" name="filter-color" value="{{key}}" {{checked (lookup
+                                        ../filters.colors key)}}>
+                                    {{label}}
+                                </label>
+                                {{/each}}
+                            </div>
+                        </div>
+
+                        <!-- Rarity Filter -->
+                        <div class="filter-section" style="flex: 1;">
+                            <h4>Rarity</h4>
+                            <div class="filter-options">
+                                {{#each config.rarities as |label key|}}
+                                <label class="filter-option">
+                                    <input type="checkbox" name="filter-rarity" value="{{key}}" {{checked (lookup
+                                        ../filters.rarities key)}}>
+                                    {{label}}
+                                </label>
+                                {{/each}}
+                            </div>
+                        </div>
+
+                        <!-- Grouping -->
+                        <div class="filter-section" style="flex: 1;">
+                            <h4>Group By</h4>
+                            <div class="filter-options">
+                                {{#each config.groupBy as |label key|}}
+                                <label class="filter-option">
+                                    <input type="radio" name="groupBy" value="{{key}}" {{checked (eq ../filters.groupBy
+                                        key)}}>
+                                    {{label}}
+                                </label>
+                                {{/each}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="binder-grid">
+                {{#each cards as |group|}}
+                {{#if group.isStack}}
+                <!-- LOGICAL STACK (Multiple unique cards grouped by Name/CMC etc) -->
+                <div class="stack-group">
+                    {{#each group.stacks as |stack index|}}
+                    <!-- Each 'stack' depends on previous logic which returns {item, quantity} -->
+                    <div class="mtg-card stack-card" style="top: {{mult index 30}}px; z-index: {{index}};"
+                        data-item-id="{{stack.item._id}}" draggable="true">
+
+                        <!-- Visible Header Strip for Stacking -->
+                        <div class="card-header-strip" title="{{stack.item.name}}">
+                            {{stack.item.name}} {{#if (gt stack.quantity 1)}}<span
+                                style="float: right;">(x{{stack.quantity}})</span>{{/if}}
+                        </div>
+                        <img src="{{stack.item.img}}">
+
+                        <!-- Overlay for Quantity (only on top card? or all?) -->
+                        <div class="card-overlay">
+                            {{#if (gt stack.quantity 1)}}
+                            <span class="quantity-badge">x{{stack.quantity}}</span>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+                {{else}}
+                <!-- SINGLE ITEM (One unique card ID type, potentially with quantity) -->
+                <div class="mtg-card" data-item-id="{{group.item._id}}" draggable="true">
+                    <img src="{{group.item.img}}" title="{{group.item.name}}">
+                    <div class="card-overlay">
+                        {{#if (gt group.quantity 1)}}
+                        <span class="quantity-badge">
+                            x{{group.quantity}}
+                        </span>
+                        {{/if}}
+                    </div>
+                </div>
+                {{/if}}
+                {{else}}
+                <p class="no-cards" style="grid-column: 1 / -1; text-align: center; color: gray;">No cards found
+                    matching filters.</p>
+                {{/each}}
+            </div>
+        </div>
+
+        <!-- DECKS TAB -->
+        <div class="tab decks" data-group="primary" data-tab="decks">
+            <div class="action-bar">
+                <button type="button" data-action="createDeck"><i class="fas fa-plus"></i> New Deck</button>
+            </div>
+            <ol class="deck-list">
+                {{#each decks}}
+                <li class="deck-row flexrow" data-item-id="{{this.id}}">
+                    <img class="deck-img" src="{{this.img}}" height="40" width="40">
+                    <h4 class="deck-name">{{this.name}}</h4>
+                    <div class="deck-controls">
+                        <a class="deck-control" data-action="editDeck" title="Edit Deck"><i class="fas fa-edit"></i></a>
+                        <a class="deck-control" data-action="deleteDeck" title="Delete Deck"><i
+                                class="fas fa-trash"></i></a>
+                    </div>
+                </li>
+                {{else}}
+                <li class="notification info">You have no decks. Create one to get started!</li>
+                {{/each}}
+            </ol>
+        </div>
+    </section>
+</form>
