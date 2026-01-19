@@ -23,7 +23,7 @@
     ],
     "scripts": [],
     "url": "https://github.com/StartYourFoundry/foundry-mtg",
-    "manifest": "https://github.com/StartYourFoundry/foundry-mtg/releases/latest/download/system.json",
-    "download": "https://github.com/StartYourFoundry/foundry-mtg/releases/latest/download/system.zip",
+    "manifest": "https://raw.githubusercontent.com/spydyrsbyte/foundry-mtg/refs/heads/main/system.json",
+    "download": "https://github.com/spydyrsbyte/foundry-mtg/archive/refs/heads/main.zip",
     "background": ""
 }
